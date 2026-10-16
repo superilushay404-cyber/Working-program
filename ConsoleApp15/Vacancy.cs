@@ -14,9 +14,9 @@
 
         public bool IsVacancyAvaivable { get; set; } = true;
 
-        public List<Worker> JobApplications { get; set; } = new List<Worker>();
+        public List<Applicant> JobApplications { get; set; } = new List<Applicant>();
 
-        public List<Worker> OperatedApplications { get; set; } = new List<Worker>();
+        public List<Applicant> OperatedApplications { get; set; } = new List<Applicant>();
 
         public string Company { get; set; }
 
@@ -26,9 +26,9 @@
 
         public int Id { get; set; }
 
-        public List<Worker> AcceptedApplications { get; set; } = new List<Worker>();
+        public List<Applicant> AcceptedApplications { get; set; } = new List<Applicant>();
 
-        public List<Worker> CanceledApplications { get; set; } = new List<Worker>();
+        public List<Applicant> CanceledApplications { get; set; } = new List<Applicant>();
 
     }
 }

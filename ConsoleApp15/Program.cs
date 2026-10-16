@@ -11,11 +11,10 @@ namespace ConsoleApp15
         {
             bool isProgramContinues = true;
             List<Vacancy> vacancies = new List<Vacancy>();
-            List<Worker> workers = new List<Worker>();
+            List<Applicant> applicants = new List<Applicant>();
 
             while (isProgramContinues)
             {
-                AutoRemoverVacanciesIfTheyAreClosed(vacancies, workers);
                 Console.WriteLine();
                 Console.WriteLine("Click any button to continue");
                 Console.ReadKey(true);
@@ -28,16 +27,16 @@ namespace ConsoleApp15
                 {
                     if (userInput == 1)
                     {
-                        Console.WriteLine("Please enter name of worker");
+                        Console.WriteLine("Please enter name of applicant");
                         string nameOfWoker = Console.ReadLine();
-                        Worker sameNamedWorker = GetWorkerByName(nameOfWoker, workers);
+                        Applicant sameNamedApplicant = GetApplicantByName(nameOfWoker, applicants);
 
-                        if (sameNamedWorker == null)
+                        if (sameNamedApplicant == null)
                         {
                             if (!string.IsNullOrEmpty(nameOfWoker))
                             {
-                                Worker worker = new Worker(nameOfWoker);
-                                workers.Add(worker);
+                                Applicant applicant = new Applicant(nameOfWoker);
+                                applicants.Add(applicant);
                                 Console.WriteLine("Success");
                             }
                             else
@@ -52,19 +51,19 @@ namespace ConsoleApp15
                     }
                     else if (userInput == 2)
                     {
-                        if (workers.Count > 0)
+                        if (applicants.Count > 0)
                         {
-                            Console.WriteLine("Enter name of worker");
-                            string nameOfWorker = Console.ReadLine();
-                            Worker findedWorker = GetWorkerByName(nameOfWorker, workers);
+                            Console.WriteLine("Enter name of applicant");
+                            string nameOfApplicant = Console.ReadLine();
+                            Applicant findedApplicant = GetApplicantByName(nameOfApplicant, applicants);
 
-                            if (findedWorker != null)
+                            if (findedApplicant != null)
                             {
-                                Console.WriteLine($"Name is: \"{findedWorker.Name}\"");
+                                Console.WriteLine($"Name is: \"{findedApplicant.Name}\"");
 
-                                if (findedWorker.Experience != null)
+                                if (findedApplicant.Experience != null)
                                 {
-                                    Console.WriteLine($"Experience: {findedWorker.Experience}");
+                                    Console.WriteLine($"Experience: {findedApplicant.Experience}");
                                 }
                                 else
                                 {
@@ -74,15 +73,15 @@ namespace ConsoleApp15
 
                                 Console.Write("Abilities: ");
 
-                                if (findedWorker.Abilities.Count > 0)
+                                if (findedApplicant.Abilities.Count > 0)
                                 {
-                                    for (int i = 0; i < findedWorker.Abilities.Count; i++)
+                                    for (int i = 0; i < findedApplicant.Abilities.Count; i++)
                                     {
-                                        if (i > 0 && i < findedWorker.Abilities.Count)
+                                        if (i > 0 && i < findedApplicant.Abilities.Count)
                                         {
                                             Console.Write(", ");
                                         }
-                                        Console.Write($"{findedWorker.Abilities[i]}");
+                                        Console.Write($"{findedApplicant.Abilities[i]}");
                                     }
 
                                 }
@@ -94,43 +93,43 @@ namespace ConsoleApp15
                                 Console.WriteLine();
                                 Console.Write("Wanted pay: ");
 
-                                if (findedWorker.WantedPayments > 0)
+                                if (findedApplicant.WantedPayments > 0)
                                 {
-                                    Console.WriteLine($"{findedWorker.WantedPayments}");
+                                    Console.WriteLine($"{findedApplicant.WantedPayments}");
                                 }
-                                else if (findedWorker.WantedPayments == 0)
+                                else if (findedApplicant.WantedPayments == 0)
                                 {
                                     Console.WriteLine("none");
                                 }
                             }
                             else
                             {
-                                Console.WriteLine($"\"{nameOfWorker}\" is not exists");
+                                Console.WriteLine($"\"{nameOfApplicant}\" is not exists");
                             }
                         }
                         else
                         {
-                            Console.WriteLine("There is no workers yet");
+                            Console.WriteLine("There is no applicants yet");
                         }
                     }
                     else if (userInput == 3)
                     {
-                        if (workers.Count > 0)
+                        if (applicants.Count > 0)
                         {
-                            Console.WriteLine("Please enter name of worker");
-                            string nameOfWorker = Console.ReadLine();
-                            Worker findedWorker = GetWorkerByName(nameOfWorker, workers);
+                            Console.WriteLine("Please enter name of applicant");
+                            string nameOfApplicant = Console.ReadLine();
+                            Applicant findedApplicant = GetApplicantByName(nameOfApplicant, applicants);
 
-                            if (findedWorker != null && findedWorker.Experience == null && findedWorker.Abilities.Count == 0)
+                            if (findedApplicant != null && findedApplicant.Experience == null && findedApplicant.Abilities.Count == 0)
                             {
-                                Console.WriteLine("Input some decription and experience of worker");
-                                string experienceOfWorker = Console.ReadLine();
+                                Console.WriteLine("Input some decription and experience of applicant");
+                                string experienceOfApplicant = Console.ReadLine();
 
-                                if (!string.IsNullOrEmpty(experienceOfWorker))
+                                if (!string.IsNullOrEmpty(experienceOfApplicant))
                                 {
                                     List<string> abilities = new List<string>();
 
-                                    Console.WriteLine("Enter abilities of worker. Enter \"0\" to stop");
+                                    Console.WriteLine("Enter abilities of applicant. Enter \"0\" to stop");
                                     bool isUserWantsToContinue = true;
 
                                     while (isUserWantsToContinue)
@@ -152,8 +151,8 @@ namespace ConsoleApp15
                                         }
                                     }
 
-                                    findedWorker.Abilities = abilities;
-                                    findedWorker.Experience = experienceOfWorker;
+                                    findedApplicant.Abilities = abilities;
+                                    findedApplicant.Experience = experienceOfApplicant;
                                     Console.WriteLine("Success");
                                 }
                                 else
@@ -161,32 +160,32 @@ namespace ConsoleApp15
                                     Console.WriteLine("Empty input");
                                 }
                             }
-                            else if (findedWorker != null)
+                            else if (findedApplicant != null)
                             {
-                                if (findedWorker.Experience != null || findedWorker.Abilities.Count == 0)
+                                if (findedApplicant.Experience != null || findedApplicant.Abilities.Count == 0)
                                 {
-                                    Console.WriteLine($"\"{findedWorker.Name}\" already has experience or abilities (or both) but you can change them with \"4\" ");
+                                    Console.WriteLine($"\"{findedApplicant.Name}\" already has experience or abilities (or both) but you can change them with \"4\" ");
                                 }
                             }
-                            else if (findedWorker == null)
+                            else if (findedApplicant == null)
                             {
-                                Console.WriteLine("This worker is not exists yet");
+                                Console.WriteLine("This applicant is not exists yet");
                             }
                         }
                         else
                         {
-                            Console.WriteLine("There is no workers yet");
+                            Console.WriteLine("There is no applicants yet");
                         }
                     }
                     else if (userInput == 4)
                     {
-                        if (workers.Count > 0)
+                        if (applicants.Count > 0)
                         {
-                            Console.WriteLine("Please enter name of worker");
-                            string nameOfWorker = Console.ReadLine();
-                            Worker findedWorker = GetWorkerByName(nameOfWorker, workers);
+                            Console.WriteLine("Please enter name of applicant");
+                            string nameOfApplicant = Console.ReadLine();
+                            Applicant findedApplicant = GetApplicantByName(nameOfApplicant, applicants);
 
-                            if (findedWorker != null && findedWorker.Experience != null)
+                            if (findedApplicant != null)
                             {
                                 Console.WriteLine("What you want to change? 1 - Name, 2 - expirience, 3 - abilities");
                                 bool isParseSuccess = int.TryParse(Console.ReadLine(), out int userChoiceToChange);
@@ -195,31 +194,31 @@ namespace ConsoleApp15
                                 {
                                     if (userChoiceToChange == 1)
                                     {
-                                        Console.WriteLine($"Input new name. Current name is \"{nameOfWorker}\"");
+                                        Console.WriteLine($"Input new name. Current name is \"{nameOfApplicant}\"");
                                         string newName = Console.ReadLine();
-                                        string savedName = findedWorker.Name;
-                                        findedWorker.Name = null;
-                                        Worker findedWorkerWithSameName = GetWorkerByName(newName, workers);
+                                        string savedName = findedApplicant.Name;
+                                        findedApplicant.Name = null;
+                                        Applicant findedApplicantWithSameName = GetApplicantByName(newName, applicants);
 
-                                        if (findedWorkerWithSameName == null)
+                                        if (findedApplicantWithSameName == null)
                                         {
-                                            findedWorker.Name = newName;
+                                            findedApplicant.Name = newName;
                                             Console.WriteLine("Success");
                                         }
                                         else
                                         {
-                                            Console.WriteLine("There is worker with same name already");
-                                            findedWorker.Name = savedName;
+                                            Console.WriteLine("There is applicant with same name already");
+                                            findedApplicant.Name = savedName;
                                         }
                                     }
                                     else if (userChoiceToChange == 2)
                                     {
-                                        Console.WriteLine("Please enter expirience of worker");
+                                        Console.WriteLine("Please enter expirience of applicant");
                                         string expirience = Console.ReadLine();
 
                                         if (!string.IsNullOrEmpty(expirience))
                                         {
-                                            findedWorker.Experience = expirience;
+                                            findedApplicant.Experience = expirience;
                                             Console.WriteLine("Success");
                                         }
                                         else
@@ -244,20 +243,20 @@ namespace ConsoleApp15
                                                 }
                                                 else if (userChoice == 1)
                                                 {
-                                                    for (int i = 0; i < findedWorker.Abilities.Count; i++)
+                                                    for (int i = 0; i < findedApplicant.Abilities.Count; i++)
                                                     {
-                                                        Console.WriteLine($"{i + 1}) {findedWorker.Abilities[i]}");
+                                                        Console.WriteLine($"{i + 1}) {findedApplicant.Abilities[i]}");
                                                     }
 
                                                     Console.WriteLine("Enter number of ability to remove");
                                                     bool isNumberOfAbilityParseSuccess = int.TryParse(Console.ReadLine(), out int numberOfAbility);
                                                     int indexOfAbility = numberOfAbility - 1;
 
-                                                    if (isNumberOfAbilityParseSuccess && findedWorker.Abilities.Count > 0)
+                                                    if (isNumberOfAbilityParseSuccess && findedApplicant.Abilities.Count > 0)
                                                     {
-                                                        if (indexOfAbility >= 0 && indexOfAbility < findedWorker.Abilities.Count)
+                                                        if (indexOfAbility >= 0 && indexOfAbility < findedApplicant.Abilities.Count)
                                                         {
-                                                            findedWorker.Abilities.Remove(findedWorker.Abilities[indexOfAbility]);
+                                                            findedApplicant.Abilities.Remove(findedApplicant.Abilities[indexOfAbility]);
                                                             Console.WriteLine("Success");
                                                         }
                                                         else
@@ -269,7 +268,7 @@ namespace ConsoleApp15
                                                     {
                                                         Console.WriteLine("Wrong input");
                                                     }
-                                                    else if (findedWorker.Abilities.Count == 0)
+                                                    else if (findedApplicant.Abilities.Count == 0)
                                                     {
                                                         Console.WriteLine("List of abilities is empty");
                                                     }
@@ -281,7 +280,7 @@ namespace ConsoleApp15
 
                                                     if (!string.IsNullOrEmpty(newAbility))
                                                     {
-                                                        findedWorker.Abilities.Add(newAbility);
+                                                        findedApplicant.Abilities.Add(newAbility);
                                                         Console.WriteLine("Success");
                                                     }
                                                     else
@@ -306,35 +305,35 @@ namespace ConsoleApp15
                                     Console.WriteLine("Wrong input");
                                 }
                             }
-                            else if (findedWorker == null)
+                            else if (findedApplicant == null)
                             {
-                                Console.WriteLine($"\"{nameOfWorker}\" is not exists");
+                                Console.WriteLine($"\"{nameOfApplicant}\" is not exists");
                             }
                         }
                         else
                         {
-                            Console.WriteLine("There is no workers yet");
+                            Console.WriteLine("There is no applicants yet");
                         }
                     }
                     else if (userInput == 5)
                     {
-                        if (workers.Count > 0)
+                        if (applicants.Count > 0)
                         {
-                            Console.WriteLine("Please input name of worker");
-                            string nameOfWorker = Console.ReadLine();
-                            Worker findedWorker = GetWorkerByName(nameOfWorker, workers);
+                            Console.WriteLine("Please input name of applicant");
+                            string nameOfApplicant = Console.ReadLine();
+                            Applicant findedApplicant = GetApplicantByName(nameOfApplicant, applicants);
 
-                            if (findedWorker != null)
+                            if (findedApplicant != null)
                             {
-                                Console.WriteLine("Enter wanted pay for worker");
+                                Console.WriteLine("Enter wanted pay for applicant");
                                 bool IsPayParseSuccess = float.TryParse(Console.ReadLine(), out float wantedPay);
 
                                 if (IsPayParseSuccess && wantedPay > 0 && wantedPay < 10000000)
                                 {
-                                    findedWorker.WantedPayments = wantedPay;
+                                    findedApplicant.WantedPayments = wantedPay;
                                     Console.WriteLine("Success");
                                 }
-                                else if (!IsPayParseSuccess) 
+                                else if (!IsPayParseSuccess)
                                 {
                                     Console.WriteLine("Not number");
                                 }
@@ -346,26 +345,26 @@ namespace ConsoleApp15
                         }
                         else
                         {
-                            Console.WriteLine("There is no workers yet");
+                            Console.WriteLine("There is no applicants yet");
                         }
                     }
                     else if (userInput == 6)
                     {
-                        if (workers.Count > 0)
+                        if (applicants.Count > 0)
                         {
-                            Console.WriteLine("Enter name of worker");
-                            string nameOfWorker = Console.ReadLine();
-                            Worker findedWorker = GetWorkerByName(nameOfWorker, workers);
+                            Console.WriteLine("Enter name of applicant");
+                            string nameOfApplicant = Console.ReadLine();
+                            Applicant findedApplicant = GetApplicantByName(nameOfApplicant, applicants);
 
-                            if (findedWorker != null)
+                            if (findedApplicant != null)
                             {
-                                workers.Remove(findedWorker);
+                                applicants.Remove(findedApplicant);
 
                                 foreach (Vacancy vacancy in vacancies)
                                 {
-                                    if (vacancy.JobApplications.Contains(findedWorker))
+                                    if (vacancy.JobApplications.Contains(findedApplicant))
                                     {
-                                        vacancy.JobApplications.Remove(findedWorker);
+                                        vacancy.JobApplications.Remove(findedApplicant);
                                     }
                                 }
 
@@ -374,7 +373,7 @@ namespace ConsoleApp15
                         }
                         else
                         {
-                            Console.WriteLine("There is no workers yet");
+                            Console.WriteLine("There is no applicants yet");
                         }
                     }
                     else if (userInput == 7)
@@ -396,7 +395,7 @@ namespace ConsoleApp15
                                 {
                                     Console.WriteLine("Enter requirements");
                                     string requirements = Console.ReadLine();
-                                    
+
                                     if (requirements != null && !string.IsNullOrWhiteSpace(requirements))
                                     {
                                         Vacancy vacancy = new Vacancy(nameOfRole, nameOfCompany, payment, requirements);
@@ -411,14 +410,14 @@ namespace ConsoleApp15
                                         {
                                             vacancy.Id = vacancies[indexOfPreviousVacancy].Id + 1;
                                         }
-                                        
+
                                         Console.WriteLine("Success");
                                     }
                                     else
                                     {
                                         Console.WriteLine("Empty input");
                                     }
-                                } 
+                                }
                                 else if (!isPaymentParseSuccess)
                                 {
                                     Console.WriteLine("Wrong input");
@@ -504,14 +503,18 @@ namespace ConsoleApp15
                                             Console.WriteLine("Please enter new payment");
                                             bool isPaymentParseSuccess = float.TryParse(Console.ReadLine(), out float newPayment);
 
-                                            if (isPaymentParseSuccess)
+                                            if (isPaymentParseSuccess && newPayment > 0)
                                             {
                                                 findedVacancy.Payments = newPayment;
                                                 Console.WriteLine("Success");
                                             }
-                                            else
+                                            else if (!isPaymentParseSuccess)
                                             {
                                                 Console.WriteLine("Input is not number");
+                                            }
+                                            else if (newPayment <= 0)
+                                            {
+                                                Console.WriteLine("Payment cant be less than 0");
                                             }
                                         }
                                         else if (userchoice == 4)
@@ -566,7 +569,7 @@ namespace ConsoleApp15
                                     findedVacancy.IsVacancyAvaivable = false;
                                     Console.WriteLine("Success");
                                 }
-                                else if (findedVacancy == null) 
+                                else if (findedVacancy == null)
                                 {
                                     Console.WriteLine("Couldnt find vacancy");
                                 }
@@ -601,16 +604,16 @@ namespace ConsoleApp15
                                 {
                                     vacancies.Remove(findedVacancy);
 
-                                    foreach (Worker worker in workers)
+                                    foreach (Applicant applicant in applicants)
                                     {
-                                        if (worker.SavedVacancys.Contains(findedVacancy))
+                                        if (applicant.SavedVacancys.Contains(findedVacancy))
                                         {
-                                            worker.SavedVacancys.Remove(findedVacancy);
+                                            applicant.SavedVacancys.Remove(findedVacancy);
                                         }
 
-                                        if (worker.JobApplicationsOfWoker.Contains(findedVacancy))
+                                        if (applicant.JobApplicationsOfWoker.Contains(findedVacancy))
                                         {
-                                            worker.JobApplicationsOfWoker.Remove(findedVacancy);
+                                            applicant.JobApplicationsOfWoker.Remove(findedVacancy);
                                         }
                                     }
 
@@ -643,7 +646,7 @@ namespace ConsoleApp15
                             {
                                 foreach (Vacancy vacancy in vacancies)
                                 {
-                                    if (vacancy.NameOfRole == nameOfRole && vacancy.IsVacancyAvaivable == true)
+                                    if (vacancy.NameOfRole.Contains(nameOfRole, StringComparison.OrdinalIgnoreCase) && vacancy.IsVacancyAvaivable == true)
                                     {
                                         findedVacancies.Add(vacancy);
                                     }
@@ -729,7 +732,7 @@ namespace ConsoleApp15
                             {
                                 foreach (Vacancy vacancy in vacancies)
                                 {
-                                    if (vacancy.Company == nameOfCompany && vacancy.IsVacancyAvaivable == true)
+                                    if (vacancy.Company.Contains(nameOfCompany, StringComparison.OrdinalIgnoreCase) && vacancy.IsVacancyAvaivable == true)
                                     {
                                         findedVacancies.Add(vacancy);
                                     }
@@ -772,7 +775,7 @@ namespace ConsoleApp15
                             {
                                 foreach (Vacancy vacancy in vacancies)
                                 {
-                                    if (vacancy.Requirements == requirements && vacancy.IsVacancyAvaivable == true)
+                                    if (vacancy.Requirements.Contains(requirements, StringComparison.OrdinalIgnoreCase) && vacancy.IsVacancyAvaivable == true)
                                     {
                                         findedVacancies.Add(vacancy);
                                     }
@@ -793,11 +796,15 @@ namespace ConsoleApp15
                                     Console.WriteLine("List is empty");
                                 }
                             }
+                            else
+                            {
+                                Console.WriteLine("Empty input");
+                            }
                         }
                     }
                     else if (userInput == 16)
                     {
-                        if (workers.Count > 0 && vacancies.Count > 0)
+                        if (applicants.Count > 0 && vacancies.Count > 0)
                         {
                             Console.WriteLine("Input id of vacancy");
                             bool isParseSuccess = int.TryParse(Console.ReadLine(), out int idOfVacancy);
@@ -808,26 +815,26 @@ namespace ConsoleApp15
 
                                 if (findedVacancy != null)
                                 {
-                                    Console.WriteLine("Input name of worker");
-                                    string nameOfWorker = Console.ReadLine();
+                                    Console.WriteLine("Input name of applicant");
+                                    string nameOfApplicant = Console.ReadLine();
 
-                                    if (!string.IsNullOrEmpty(nameOfWorker))
+                                    if (!string.IsNullOrEmpty(nameOfApplicant))
                                     {
-                                        Worker findedWorker = GetWorkerByName(nameOfWorker, workers);
+                                        Applicant findedApplicant = GetApplicantByName(nameOfApplicant, applicants);
 
-                                        if (findedWorker != null && !findedVacancy.OperatedApplications.Contains(findedWorker) && !findedVacancy.JobApplications.Contains(findedWorker)&& findedVacancy.IsVacancyAvaivable == true)
+                                        if (findedApplicant != null && !findedVacancy.OperatedApplications.Contains(findedApplicant) && !findedVacancy.JobApplications.Contains(findedApplicant) && findedVacancy.IsVacancyAvaivable == true)
                                         {
-                                            findedVacancy.JobApplications.Add(findedWorker);
-                                            findedWorker.JobApplicationsOfWoker.Add(findedVacancy);
+                                            findedVacancy.JobApplications.Add(findedApplicant);
+                                            findedApplicant.JobApplicationsOfWoker.Add(findedVacancy);
                                             Console.WriteLine("Success");
                                         }
-                                        else if (findedWorker == null)
+                                        else if (findedApplicant == null)
                                         {
-                                            Console.WriteLine("This worker is not exists");
+                                            Console.WriteLine("This applicant is not exists");
                                         }
-                                        else if (findedVacancy.OperatedApplications.Contains(findedWorker) || findedVacancy.JobApplications.Contains(findedWorker))
+                                        else if (findedVacancy.OperatedApplications.Contains(findedApplicant) || findedVacancy.JobApplications.Contains(findedApplicant))
                                         {
-                                            Console.WriteLine("This worker cant make a answer to same vacancy more than 1 time");
+                                            Console.WriteLine("This applicant cant make a answer to same vacancy more than 1 time");
                                         }
                                         else if (findedVacancy.IsVacancyAvaivable == false)
                                         {
@@ -837,9 +844,9 @@ namespace ConsoleApp15
                                 }
                             }
                         }
-                        else if (workers.Count == 0)
+                        else if (applicants.Count == 0)
                         {
-                            Console.WriteLine("There is no workers yet");
+                            Console.WriteLine("There is no applicants yet");
                         }
                         else if (vacancies.Count == 0)
                         {
@@ -848,42 +855,42 @@ namespace ConsoleApp15
                     }
                     else if (userInput == 17)
                     {
-                        if (workers.Count > 0 && vacancies.Count > 0)
+                        if (applicants.Count > 0 && vacancies.Count > 0)
                         {
-                            Console.WriteLine("Enter name of worker");
-                            string nameOfWorker = Console.ReadLine();
+                            Console.WriteLine("Enter name of applicant");
+                            string nameOfApplicant = Console.ReadLine();
 
-                            Worker findedWorker = GetWorkerByName(nameOfWorker, workers);
+                            Applicant findedApplicant = GetApplicantByName(nameOfApplicant, applicants);
 
-                            if (findedWorker != null)
+                            if (findedApplicant != null)
                             {
-                                if (findedWorker.JobApplicationsOfWoker.Count > 0)
+                                if (findedApplicant.JobApplicationsOfWoker.Count > 0)
                                 {
-                                    for (int i = 0; i < findedWorker.JobApplicationsOfWoker.Count; i++)
+                                    for (int i = 0; i < findedApplicant.JobApplicationsOfWoker.Count; i++)
                                     {
                                         Console.WriteLine();
-                                        Console.WriteLine($"Name of role: {findedWorker.JobApplicationsOfWoker[i].NameOfRole}");
-                                        Console.WriteLine($"Name of company: {findedWorker.JobApplicationsOfWoker[i].Company}");
-                                        Console.WriteLine($"Payment: {findedWorker.JobApplicationsOfWoker[i].Payments}");
-                                        Console.WriteLine($"Requirements: {findedWorker.JobApplicationsOfWoker[i].Requirements}");
-                                        Console.WriteLine($"Id: {findedWorker.JobApplicationsOfWoker[i].Id}");
+                                        Console.WriteLine($"Name of role: {findedApplicant.JobApplicationsOfWoker[i].NameOfRole}");
+                                        Console.WriteLine($"Name of company: {findedApplicant.JobApplicationsOfWoker[i].Company}");
+                                        Console.WriteLine($"Payment: {findedApplicant.JobApplicationsOfWoker[i].Payments}");
+                                        Console.WriteLine($"Requirements: {findedApplicant.JobApplicationsOfWoker[i].Requirements}");
+                                        Console.WriteLine($"Id: {findedApplicant.JobApplicationsOfWoker[i].Id}");
                                         Console.WriteLine();
                                     }
                                 }
                             }
                         }
-                        else if (workers.Count == 0)
+                        else if (applicants.Count == 0)
                         {
-                            Console.WriteLine("There is no workers yet");
+                            Console.WriteLine("There is no applicants yet");
                         }
                         else if (vacancies.Count == 0)
                         {
                             Console.WriteLine("There is no vacancies yet");
                         }
                     }
-                    else if ( userInput == 18)
+                    else if (userInput == 18)
                     {
-                        if (workers.Count > 0 && vacancies.Count > 0)
+                        if (applicants.Count > 0 && vacancies.Count > 0)
                         {
                             Console.WriteLine("Enter id of vacancy");
                             bool isIdParseSuccess = int.TryParse(Console.ReadLine(), out int idOfVacancy);
@@ -916,9 +923,9 @@ namespace ConsoleApp15
                                 Console.WriteLine("Input is not a number");
                             }
                         }
-                        else if (workers.Count == 0)
+                        else if (applicants.Count == 0)
                         {
-                            Console.WriteLine("There is no workers yet");
+                            Console.WriteLine("There is no applicants yet");
                         }
                         else if (vacancies.Count == 0)
                         {
@@ -927,7 +934,7 @@ namespace ConsoleApp15
                     }
                     else if (userInput == 19)
                     {
-                        if (workers.Count > 0 && vacancies.Count > 0)
+                        if (applicants.Count > 0 && vacancies.Count > 0)
                         {
                             Console.WriteLine("Enter id of vacancy");
                             bool isIdParseSuccess = int.TryParse(Console.ReadLine(), out int idOfVacancy);
@@ -938,39 +945,39 @@ namespace ConsoleApp15
 
                                 if (findedVacancy != null)
                                 {
-                                    Console.WriteLine("Enter name of worker");
-                                    string nameOfWorker = Console.ReadLine();
-                                    Worker findedWorker = GetWorkerByName(nameOfWorker, workers);
+                                    Console.WriteLine("Enter name of applicant");
+                                    string nameOfApplicant = Console.ReadLine();
+                                    Applicant findedApplicant = GetApplicantByName(nameOfApplicant, applicants);
 
-                                    if (findedWorker != null && findedVacancy.JobApplications.Contains(findedWorker))
+                                    if (findedApplicant != null && findedVacancy.JobApplications.Contains(findedApplicant))
                                     {
                                         Console.WriteLine("Enter 1 to accept, 2 to reject");
                                         bool isChoiceParsed = int.TryParse(Console.ReadLine(), out int choice);
 
                                         if (isChoiceParsed)
                                         {
-                                            if (choice == 1 && findedWorker.JobApplicationsOfWoker.Contains(findedVacancy))
+                                            if (choice == 1 && findedApplicant.JobApplicationsOfWoker.Contains(findedVacancy))
                                             {
-                                                findedVacancy.OperatedApplications.Add(findedWorker);
-                                                int indexOfVacancy = findedWorker.JobApplicationsOfWoker.IndexOf(findedVacancy);
-                                                findedVacancy.AcceptedApplications.Add(findedWorker);
-                                                findedWorker.JobApplicationsOfWoker.Remove(findedVacancy);
-                                                findedVacancy.JobApplications.Remove(findedWorker);
+                                                findedVacancy.OperatedApplications.Add(findedApplicant);
+                                                int indexOfVacancy = findedApplicant.JobApplicationsOfWoker.IndexOf(findedVacancy);
+                                                findedVacancy.AcceptedApplications.Add(findedApplicant);
+                                                findedApplicant.JobApplicationsOfWoker.Remove(findedVacancy);
+                                                findedVacancy.JobApplications.Remove(findedApplicant);
                                                 Console.WriteLine("Success");
 
                                             }
-                                            else if (choice == 2 && findedWorker.JobApplicationsOfWoker.Contains(findedVacancy))
+                                            else if (choice == 2 && findedApplicant.JobApplicationsOfWoker.Contains(findedVacancy))
                                             {
-                                                findedVacancy.OperatedApplications.Add(findedWorker);
-                                                int indexOfVacancy = findedWorker.JobApplicationsOfWoker.IndexOf(findedVacancy);
-                                                findedWorker.JobApplicationsOfWoker.Remove(findedVacancy);
-                                                findedVacancy.CanceledApplications.Add(findedWorker);
-                                                findedVacancy.JobApplications.Remove(findedWorker);
+                                                findedVacancy.OperatedApplications.Add(findedApplicant);
+                                                int indexOfVacancy = findedApplicant.JobApplicationsOfWoker.IndexOf(findedVacancy);
+                                                findedApplicant.JobApplicationsOfWoker.Remove(findedVacancy);
+                                                findedVacancy.CanceledApplications.Add(findedApplicant);
+                                                findedVacancy.JobApplications.Remove(findedApplicant);
                                                 Console.WriteLine("Success");
                                             }
-                                            else if (!findedWorker.JobApplicationsOfWoker.Contains(findedVacancy))
+                                            else if (!findedApplicant.JobApplicationsOfWoker.Contains(findedVacancy))
                                             {
-                                                Console.WriteLine("This worker didnt accept this application");
+                                                Console.WriteLine("This applicant didnt accept this application");
                                             }
                                             else
                                             {
@@ -982,13 +989,13 @@ namespace ConsoleApp15
                                             Console.WriteLine("Input is not a number");
                                         }
                                     }
-                                    else if (findedWorker == null)
+                                    else if (findedApplicant == null)
                                     {
-                                        Console.WriteLine("This worker is not exists");
+                                        Console.WriteLine("This applicant is not exists");
                                     }
-                                    else if (!findedVacancy.JobApplications.Contains(findedWorker))
+                                    else if (!findedVacancy.JobApplications.Contains(findedApplicant))
                                     {
-                                        Console.WriteLine("This worker didnt send an answer on this application");
+                                        Console.WriteLine("This applicant didnt send an answer on this application");
                                     }
 
                                 }
@@ -1002,9 +1009,9 @@ namespace ConsoleApp15
                                 Console.WriteLine("Input is not a number");
                             }
                         }
-                        else if (workers.Count == 0)
+                        else if (applicants.Count == 0)
                         {
-                            Console.WriteLine("There is no workers yet");
+                            Console.WriteLine("There is no applicants yet");
                         }
                         else if (vacancies.Count == 0)
                         {
@@ -1013,13 +1020,13 @@ namespace ConsoleApp15
                     }
                     else if (userInput == 20)
                     {
-                        if (workers.Count > 0 && vacancies.Count > 0)
+                        if (applicants.Count > 0 && vacancies.Count > 0)
                         {
-                            Console.WriteLine("Enter name of worker");
-                            string nameOfWorker = Console.ReadLine();
-                            Worker findedWorker = GetWorkerByName(nameOfWorker, workers);
+                            Console.WriteLine("Enter name of applicant");
+                            string nameOfApplicant = Console.ReadLine();
+                            Applicant findedApplicant = GetApplicantByName(nameOfApplicant, applicants);
 
-                            if (findedWorker != null)
+                            if (findedApplicant != null)
                             {
                                 Console.WriteLine("Enter id of vacancy");
                                 bool isIdParseSuccess = int.TryParse(Console.ReadLine(), out int id);
@@ -1028,18 +1035,18 @@ namespace ConsoleApp15
                                 {
                                     Vacancy findedVacancy = GetVacancyById(id, vacancies);
 
-                                    if (findedVacancy != null && !findedWorker.SavedVacancys.Contains(findedVacancy) && findedVacancy.IsVacancyAvaivable == true)
+                                    if (findedVacancy != null && !findedApplicant.SavedVacancys.Contains(findedVacancy) && findedVacancy.IsVacancyAvaivable == true)
                                     {
-                                        findedWorker.SavedVacancys.Add(findedVacancy);
+                                        findedApplicant.SavedVacancys.Add(findedVacancy);
                                         Console.WriteLine("Success");
                                     }
-                                    else if (findedVacancy == null) 
+                                    else if (findedVacancy == null)
                                     {
                                         Console.WriteLine("Vacancy is not exists");
                                     }
-                                    else if (findedWorker.SavedVacancys.Contains(findedVacancy))
+                                    else if (findedApplicant.SavedVacancys.Contains(findedVacancy))
                                     {
-                                        Console.WriteLine("Cant add same vacancy to favourite list for 1 worker");
+                                        Console.WriteLine("Cant add same vacancy to favourite list for 1 applicant");
                                     }
                                     else if (findedVacancy.IsVacancyAvaivable == false)
                                     {
@@ -1053,12 +1060,12 @@ namespace ConsoleApp15
                             }
                             else
                             {
-                                Console.WriteLine("This worker is not exists");
+                                Console.WriteLine("This applicant is not exists");
                             }
                         }
-                        else if (workers.Count == 0)
+                        else if (applicants.Count == 0)
                         {
-                            Console.WriteLine("There is no workers yet");
+                            Console.WriteLine("There is no applicants yet");
                         }
                         else if (vacancies.Count == 0)
                         {
@@ -1067,38 +1074,38 @@ namespace ConsoleApp15
                     }
                     else if (userInput == 21)
                     {
-                        if (workers.Count > 0 && vacancies.Count > 0)
+                        if (applicants.Count > 0 && vacancies.Count > 0)
                         {
-                            Console.WriteLine("Enter name of worker");
-                            string nameOfWorker = Console.ReadLine();
-                            Worker findedWorker = GetWorkerByName(nameOfWorker, workers);
+                            Console.WriteLine("Enter name of applicant");
+                            string nameOfApplicant = Console.ReadLine();
+                            Applicant findedApplicant = GetApplicantByName(nameOfApplicant, applicants);
 
-                            if (findedWorker != null)
+                            if (findedApplicant != null)
                             {
-                                if (findedWorker.SavedVacancys.Count > 0)
+                                if (findedApplicant.SavedVacancys.Count > 0)
                                 {
-                                    for (int i = 0; i < findedWorker.SavedVacancys.Count; i++)
+                                    for (int i = 0; i < findedApplicant.SavedVacancys.Count; i++)
                                     {
-                                        Console.WriteLine($"{findedWorker.SavedVacancys[i].NameOfRole}");
-                                        Console.WriteLine($"{findedWorker.SavedVacancys[i].IsVacancyAvaivable}");
-                                        Console.WriteLine($"{findedWorker.SavedVacancys[i].Company}");
-                                        Console.WriteLine($"{findedWorker.SavedVacancys[i].Payments}");
-                                        Console.WriteLine($"{findedWorker.SavedVacancys[i].Id}");
+                                        Console.WriteLine($"{findedApplicant.SavedVacancys[i].NameOfRole}");
+                                        Console.WriteLine($"{findedApplicant.SavedVacancys[i].IsVacancyAvaivable}");
+                                        Console.WriteLine($"{findedApplicant.SavedVacancys[i].Company}");
+                                        Console.WriteLine($"{findedApplicant.SavedVacancys[i].Payments}");
+                                        Console.WriteLine($"{findedApplicant.SavedVacancys[i].Id}");
                                     }
                                 }
                                 else
                                 {
-                                    Console.WriteLine("This worker doesnt has any saved vacancies");
+                                    Console.WriteLine("This applicant doesnt has any saved vacancies");
                                 }
                             }
                             else
                             {
-                                Console.WriteLine("This worker is not exists");
+                                Console.WriteLine("This applicant is not exists");
                             }
                         }
-                        else if (workers.Count == 0)
+                        else if (applicants.Count == 0)
                         {
-                            Console.WriteLine("There is no workers yet");
+                            Console.WriteLine("There is no applicants yet");
                         }
                         else if (vacancies.Count == 0)
                         {
@@ -1107,7 +1114,7 @@ namespace ConsoleApp15
                     }
                     else if (userInput == 22)
                     {
-                        if (vacancies.Count  > 0)
+                        if (vacancies.Count > 0)
                         {
                             int totalAmountOffreeVacancies = 0;
 
@@ -1136,35 +1143,35 @@ namespace ConsoleApp15
                     }
                     else if (userInput == 23)
                     {
-                        if (vacancies.Count > 0 && workers.Count > 0)
+                        if (vacancies.Count > 0 && applicants.Count > 0)
                         {
-                            Console.WriteLine("Enter name of worker");
-                            string nameOfWorker = Console.ReadLine();
-                            Worker findedWorker = GetWorkerByName(nameOfWorker, workers);
+                            Console.WriteLine("Enter name of applicant");
+                            string nameOfApplicant = Console.ReadLine();
+                            Applicant findedApplicant = GetApplicantByName(nameOfApplicant, applicants);
 
-                            if (findedWorker != null)
+                            if (findedApplicant != null)
                             {
-                                if (findedWorker.JobApplicationsOfWoker.Count > 0)
+                                if (findedApplicant.JobApplicationsOfWoker.Count > 0)
                                 {
-                                    Console.WriteLine($"Number of job applications of worker: {findedWorker.JobApplicationsOfWoker.Count}");
+                                    Console.WriteLine($"Number of job applications of applicant: {findedApplicant.JobApplicationsOfWoker.Count}");
                                 }
                                 else
                                 {
-                                    Console.WriteLine("This worker is not made any job applications");
+                                    Console.WriteLine("This applicant is not made any job applications");
                                 }
                             }
                             else
                             {
-                                Console.WriteLine("This worker is not exists yet");
+                                Console.WriteLine("This applicant is not exists yet");
                             }
                         }
                         else if (vacancies.Count == 0)
                         {
                             Console.WriteLine("There is no vacancies yet");
                         }
-                        else if (workers.Count == 0)
+                        else if (applicants.Count == 0)
                         {
-                            Console.WriteLine("There is no workers yet");
+                            Console.WriteLine("There is no applicants yet");
                         }
                     }
                     else if (userInput == 24)
@@ -1204,17 +1211,23 @@ namespace ConsoleApp15
                     }
                     else if (userInput == 25)
                     {
-                        if (workers.Count > 0)
+                        int freeVacancies = 0;
+                        int totalJobApplications = 0;
+                        int totalCanceledApplications = 0;
+                        int totalAcceptedApplications = 0;
+
+
+                        if (applicants.Count > 0)
                         {
-                            foreach (Worker worker in workers)
+                            foreach (Applicant applicant in applicants)
                             {
-                                Console.WriteLine($"Name of worker: {worker.Name}");
+                                Console.WriteLine($"Name of applicant: {applicant.Name}");
                             }
-                            Console.WriteLine($"Total amount is: {workers.Count}");
+                            Console.WriteLine($"Total amount is: {applicants.Count}");
                         }
                         else
                         {
-                            Console.WriteLine("There is no workers");
+                            Console.WriteLine("There is no applicants");
                         }
 
                         if (vacancies.Count > 0)
@@ -1223,7 +1236,49 @@ namespace ConsoleApp15
                             {
                                 Console.WriteLine($"Id of vacancy: {vacancy.Id}");
                             }
+
                             Console.WriteLine($"Total amount is: {vacancies.Count}");
+
+                            foreach (Vacancy vacancy in vacancies)
+                            {
+                                if (vacancy.IsVacancyAvaivable == true)
+                                {
+                                    Console.WriteLine($"Id of free vacancy: {vacancy.Id}");
+                                    freeVacancies++;
+                                }
+
+                                Console.WriteLine($"Total amount of free vacancies is: {freeVacancies}");
+                            }
+
+                            foreach (Vacancy vacancy in vacancies)
+                            {
+                                if (vacancy.JobApplications.Count > 0)
+                                {
+                                    totalJobApplications += vacancy.JobApplications.Count;
+                                }
+                            }
+
+                            Console.WriteLine($"Total amount of job applications: {totalJobApplications}");
+
+                            foreach (Vacancy vacancy in vacancies)
+                            {
+                                if (vacancy.CanceledApplications.Count > 0)
+                                {
+                                    totalCanceledApplications += vacancy.CanceledApplications.Count;
+                                }
+                            }
+
+                            Console.WriteLine($"Total amount of canceled applications: {totalCanceledApplications}");
+
+                            foreach (Vacancy vacancy in vacancies)
+                            {
+                                if (vacancy.AcceptedApplications.Count > 0)
+                                {
+                                    totalAcceptedApplications += vacancy.AcceptedApplications.Count;
+                                }
+                            }
+
+                            Console.WriteLine($"Total amount of accepted applications: {totalAcceptedApplications}");
                         }
                         else
                         {
@@ -1245,12 +1300,12 @@ namespace ConsoleApp15
 
         static void PrintInfo()
         {
-            Console.WriteLine("Enter 1 to add new worker");
-            Console.WriteLine("Enter 2 to see info about worker");
+            Console.WriteLine("Enter 1 to add new applicant");
+            Console.WriteLine("Enter 2 to see info about applicant");
             Console.WriteLine("Enter 3 to add decription and abilities");
-            Console.WriteLine("Enter 4 to change info about worker");
+            Console.WriteLine("Enter 4 to change info about applicant");
             Console.WriteLine("Enter 5 to change wanted pay");
-            Console.WriteLine("Enter 6 to remove worker");
+            Console.WriteLine("Enter 6 to remove applicant");
             Console.WriteLine();
             Console.WriteLine("Enter 7 to make a new vacancy");
             Console.WriteLine("Enter 8 to see all vacancies");
@@ -1264,26 +1319,26 @@ namespace ConsoleApp15
             Console.WriteLine("Enter 15 to find vacancy by abilties");
             Console.WriteLine();
             Console.WriteLine("Enter 16 to send an answer to vacancy");
-            Console.WriteLine("Enter 17 to see all answers of worker");
-            Console.WriteLine("Enter 18 to see answers of potential workers");
-            Console.WriteLine("Enter 19 to change status of worker's answer");
+            Console.WriteLine("Enter 17 to see all answers of applicant");
+            Console.WriteLine("Enter 18 to see answers of potential applicants");
+            Console.WriteLine("Enter 19 to change status of applicant's answer");
             Console.WriteLine();
             Console.WriteLine("Enter 20 to add vacancy to favourite list");
             Console.WriteLine("Enter 21 to see saved vacancies favourite list");
             Console.WriteLine("Enter 22 to see amount of all active vacancies");
-            Console.WriteLine("Enter 23 to see amount of applications of worker");
+            Console.WriteLine("Enter 23 to see amount of applications of applicant");
             Console.WriteLine("Enter 24 to see vacancies with same or higher payment");
-            Console.WriteLine("Enter 25 to see al info about program");
+            Console.WriteLine("Enter 25 to see all info about program");
             Console.WriteLine("Enter 0 to stop");
         }
 
-        static Worker GetWorkerByName(string nameOfWorker, List<Worker> workers)
+        static Applicant GetApplicantByName(string nameOfApplicant, List<Applicant> applicants)
         {
-            foreach (Worker worker in workers)
+            foreach (Applicant applicant in applicants)
             {
-                if (worker.Name == nameOfWorker)
+                if (applicant.Name == nameOfApplicant)
                 {
-                    return worker;
+                    return applicant;
                 }
             }
             return null;
@@ -1299,24 +1354,6 @@ namespace ConsoleApp15
                 }
             }
             return null;
-        }
-
-        static void AutoRemoverVacanciesIfTheyAreClosed(List<Vacancy> vacancies, List<Worker> workers)
-        {
-            foreach (Vacancy vacancy in vacancies)
-            {
-                if (vacancy.IsVacancyAvaivable == false)
-                {
-                    foreach (Worker worker in workers)
-                    {
-                        if (worker.SavedVacancys.Contains(vacancy) || worker.JobApplicationsOfWoker.Contains(vacancy))
-                        {
-                            worker.SavedVacancys.Remove(vacancy);
-                            worker.JobApplicationsOfWoker.Remove(vacancy);
-                        }
-                    }
-                }
-            }
         }
     }
 }

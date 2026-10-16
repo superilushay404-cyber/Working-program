@@ -1,8 +1,8 @@
 ﻿namespace ConsoleApp15
 {
-    internal class Worker
+    internal class Applicant
     {
-        public Worker(string name)
+        public Applicant(string name)
         {
             Name = name;
         }
